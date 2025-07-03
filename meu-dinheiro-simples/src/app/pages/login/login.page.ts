@@ -1,20 +1,51 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { IonHeader, IonToolbar, IonButton, IonTitle, IonInput, IonText, IonContent   } from "@ionic/angular/standalone";
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule]
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
+  email = '';
+  password = '';
+  loading = false;
+  error = '';
 
-  constructor() { }
+  constructor(
+    private auth: AuthService,
+    private router: Router
+  ) {}
 
-  ngOnInit() {
+  async login() {
+    this.loading = true;
+    this.error = '';
+    try {
+      await this.auth.login(this.email, this.password);
+      this.router.navigateByUrl('/tabs', { replaceUrl: true });
+    } catch (err: any) {
+      this.error = 'E-mail ou senha inválidos';
+    } finally {
+      this.loading = false;
+    }
   }
 
+  async loginComGoogle() {
+    try {
+      await this.auth.loginWithGoogle();
+      this.router.navigateByUrl('/tabs', { replaceUrl: true });
+    } catch (err) {
+      this.error = 'Erro ao logar com Google';
+    }
+  }
+
+  register() {
+    this.router.navigate(['/register'])
+  }
 }

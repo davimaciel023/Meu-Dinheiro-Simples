@@ -1,20 +1,42 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { IonHeader, IonContent, IonToolbar } from "@ionic/angular/standalone";
+import { IonicModule } from '@ionic/angular'
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
-  standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonicModule, FormsModule, CommonModule]
 })
-export class RegisterPage implements OnInit {
+export class RegisterPage {
+  email = '';
+  password = '';
+  loading = false;
+  error = '';
 
-  constructor() { }
+  constructor(
+    private auth: AuthService,
+    private router: Router
+  ) {}
 
-  ngOnInit() {
+  async register() {
+    this.loading = true;
+    this.error = '';
+    try {
+      await this.auth.register(this.email, this.password);
+      this.router.navigateByUrl('/tabs', { replaceUrl: true });
+    } catch (err: any) {
+      this.error = 'Erro ao registrar. Verifique o e-mail.';
+    } finally {
+      this.loading = false;
+    }
   }
 
+  login(){
+    this.router.navigate(['/login'])
+  }
 }
