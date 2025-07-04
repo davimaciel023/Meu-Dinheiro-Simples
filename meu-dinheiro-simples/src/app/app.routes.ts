@@ -1,41 +1,16 @@
-import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'tabs',
     pathMatch: 'full'
   },
   {
     path: 'tabs',
-    loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'dashboard',
-    loadComponent: () => import('./pages/dashboard/dashboard.page').then(m => m.DashboardPage),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'transacoes',
-    loadComponent: () => import('./pages/transacoes/transacoes.page').then(m => m.TransacoesPage),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'nova-transacao',
-    loadComponent: () => import('./pages/nova-transacao/nova-transacao.page').then(m => m.NovaTransacaoPage),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'orcamento',
-    loadComponent: () => import('./pages/orcamento/orcamento.page').then(m => m.OrcamentoPage),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'configuracoes',
-    loadComponent: () => import('./pages/configuracoes/configuracoes.page').then(m => m.ConfiguracoesPage),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    loadChildren: () => import('./tabs/tabs.route').then(m => m.routes)
   },
   {
     path: 'login',
@@ -44,5 +19,5 @@ export const routes: Routes = [
   {
     path: 'register',
     loadComponent: () => import('./pages/register/register.page').then(m => m.RegisterPage)
-  },
+  }
 ];
