@@ -50,7 +50,7 @@ export class DashboardPage implements OnInit {
     const categorias: { [key: string]: number } = {};
 
     this.transacoes.forEach((t) => {
-      const cat = t.category;
+      const cat = t.category || 'Outros';
       categorias[cat] = (categorias[cat] || 0) + t.value;
     });
 
