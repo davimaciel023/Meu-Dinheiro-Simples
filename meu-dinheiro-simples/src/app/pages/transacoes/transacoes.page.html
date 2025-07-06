@@ -1,13 +1,25 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>transacoes</ion-title>
+    <ion-title>Transações</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">transacoes</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <ion-list *ngIf="!carregando && transacoes.length > 0">
+    <ion-item *ngFor="let t of transacoes" lines="full">
+      <ion-label>
+        <h2>{{ t.category || 'Sem categoria' }}</h2>
+        <p>{{ formatarData(t.date) }} – {{ t.description || 'Sem descrição' }}</p>
+      </ion-label>
+      <ion-text [color]="t.type === 'entrada' ? 'success' : 'danger'">
+        <strong>{{ t.type === 'entrada' ? '+' : '-' }} R$ {{ t.value.toFixed(2) }}</strong>
+      </ion-text>
+    </ion-item>
+  </ion-list>
+
+  <ion-text *ngIf="!carregando && transacoes.length === 0" color="medium">
+    <p>Nenhuma transação encontrada.</p>
+  </ion-text>
+
+  <ion-spinner *ngIf="carregando" name="crescent" class="ion-margin-top"></ion-spinner>
 </ion-content>
