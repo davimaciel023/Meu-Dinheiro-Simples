@@ -1,6 +1,14 @@
 import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
+import { addIcons } from 'ionicons';
+import {
+  pieChartOutline,
+  swapHorizontalOutline,
+  addCircleOutline,
+  walletOutline,
+  settingsOutline
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-tabs',
@@ -8,4 +16,14 @@ import { RouterModule } from '@angular/router';
   imports: [IonicModule, RouterModule],
   templateUrl: './tabs.page.html'
 })
-export class TabsPage {}
+export class TabsPage {
+  constructor() {
+    addIcons({
+      pieChartOutline,
+      swapHorizontalOutline,
+      addCircleOutline,
+      walletOutline,
+      settingsOutline
+    });
+  }
+}
