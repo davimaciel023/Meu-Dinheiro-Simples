@@ -1,13 +1,48 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>dashboard</ion-title>
+    <ion-title>Dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Dashboard</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Saldo Atual</ion-card-title>
+      <ion-card-subtitle>R$ {{ saldo | number:'1.2-2' }}</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-card color="success">
+          <ion-card-header>
+            <ion-card-title>Entradas</ion-card-title>
+            <ion-card-subtitle>R$ {{ totalEntradas | number:'1.2-2' }}</ion-card-subtitle>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card color="danger">
+          <ion-card-header>
+            <ion-card-title>Saídas</ion-card-title>
+            <ion-card-subtitle>R$ {{ totalSaidas | number:'1.2-2' }}</ion-card-subtitle>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Gastos por Categoria</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas baseChart
+        [data]="chartData"
+        chartType="pie"
+        [options]="{ responsive: true }">
+      </canvas>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
