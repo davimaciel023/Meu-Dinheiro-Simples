@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Firestore, doc, docData, setDoc } from '@angular/fire/firestore';
 import { TransacaoService } from 'src/app/services/transacao.service';
-import { Firestore, collection, doc, getDoc, setDoc } from '@angular/fire/firestore';
-import { Transacao } from 'src/app/models/transacao.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-orcamento',
@@ -14,82 +13,66 @@ import { Transacao } from 'src/app/models/transacao.model';
   styleUrls: ['./orcamento.page.scss']
 })
 export class OrcamentoPage implements OnInit {
-  mesAtual: string = '';
-  gastoAtual: number = 0;
-  restante: number = 0;
-  percentualGasto: number = 0;
+  private firestore = inject(Firestore);
+  private toastCtrl = inject(ToastController);
+
+  orcamento: any = null;
+  gastoAtual = 0;
+  restante = 0;
+  percentualGasto = 0;
+  mesAtual = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
 
   limiteInput: number = 0;
-  orcamento: { limiteMensal: number } | null = null;
+  editar = false;
+  carregando = true;
 
-  constructor(
-    private firestore: Firestore,
-    private transacaoService: TransacaoService,
-    private toastCtrl: ToastController
-  ) {}
+  constructor(private transacaoService: TransacaoService) {}
 
   ngOnInit() {
-    const hoje = new Date();
-    this.mesAtual = hoje.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+    const docRef = doc(this.firestore, `orcamento/${this.mesAtual}`);
 
-    this.carregarOrcamento();
-    this.calcularGastosDoMes();
+    docData(docRef).subscribe((dados) => {
+      this.orcamento = dados;
+      if (dados && 'limiteMensal' in dados) {
+        this.orcamento = dados;
+        this.limiteInput = dados['limiteMensal'];
+      }
+      this.atualizarGastos();
+      this.carregando = false;
+    }, () => {
+      this.carregando = false;
+    });
   }
 
-  async carregarOrcamento() {
-    const ref = doc(this.firestore, 'orcamentos', this.mesAtual);
-    const snap = await getDoc(ref);
-    if (snap.exists()) {
-      this.orcamento = snap.data() as { limiteMensal: number };
-      this.calcularRestante();
-    }
-  }
+  atualizarGastos() {
+    this.transacaoService.getTransacoes().subscribe((transacoes) => {
+      const mesAtual = new Date().getMonth();
+      const anoAtual = new Date().getFullYear();
 
-  async salvarOrcamento() {
-    if (this.limiteInput <= 0) {
-      const toast = await this.toastCtrl.create({
-        message: 'Defina um valor válido para o orçamento.',
-        color: 'warning',
-        duration: 2000
+      const despesas = transacoes.filter(t => {
+        const data = new Date(t.date);
+        return t.type === 'saida' && data.getMonth() === mesAtual && data.getFullYear() === anoAtual;
       });
-      toast.present();
-      return;
-    }
 
-    const ref = doc(this.firestore, 'orcamentos', this.mesAtual);
-    await setDoc(ref, { limiteMensal: this.limiteInput });
+      this.gastoAtual = despesas.reduce((total, t) => total + t.value, 0);
+      this.restante = this.orcamento.limiteMensal - this.gastoAtual;
+      this.percentualGasto = this.gastoAtual / this.orcamento.limiteMensal;
+    });
+  }
+
+  async salvarLimite() {
+    const docRef = doc(this.firestore, `orcamento/${this.mesAtual}`);
+    await setDoc(docRef, { limiteMensal: this.limiteInput });
 
     this.orcamento = { limiteMensal: this.limiteInput };
-    this.calcularRestante();
+    this.atualizarGastos();
+    this.editar = false;
 
     const toast = await this.toastCtrl.create({
-      message: 'Orçamento salvo com sucesso!',
-      color: 'success',
-      duration: 2000
+      message: 'Limite atualizado com sucesso!',
+      duration: 2000,
+      color: 'success'
     });
     toast.present();
-  }
-
-  calcularGastosDoMes() {
-    this.transacaoService.getTransacoes().subscribe((transacoes: Transacao[]) => {
-      const hoje = new Date();
-      const mes = hoje.getMonth();
-      const ano = hoje.getFullYear();
-
-      this.gastoAtual = transacoes
-        .filter(t => {
-          const data = new Date(t.date);
-          return data.getMonth() === mes && data.getFullYear() === ano && t.type === 'saida';
-        })
-        .reduce((soma, t) => soma + t.value, 0);
-
-      this.calcularRestante();
-    });
-  }
-
-  calcularRestante() {
-    if (!this.orcamento) return;
-    this.restante = this.orcamento.limiteMensal - this.gastoAtual;
-    this.percentualGasto = Math.min(this.gastoAtual / this.orcamento.limiteMensal, 1);
   }
 }
