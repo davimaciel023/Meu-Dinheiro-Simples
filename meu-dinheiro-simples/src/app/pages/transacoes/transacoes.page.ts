@@ -1,34 +1,71 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController, AlertController, ToastController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { TransacaoService } from 'src/app/services/transacao.service';
 import { Transacao } from 'src/app/models/transacao.model';
-import { NavController, AlertController, ToastController } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-transacoes',
   standalone: true,
-  imports: [IonicModule, CommonModule],
+  imports: [IonicModule, CommonModule, FormsModule],
   templateUrl: './transacoes.page.html',
   styleUrls: ['./transacoes.page.scss']
 })
 export class TransacoesPage implements OnInit {
   transacoesAgrupadas: { titulo: string, transacoes: Transacao[] }[] = [];
+  filtroTipo = 'todos';
+  filtroCategoria = 'todas';
+  filtroMes = 'todos';
 
-  carregando = true
+  categorias: string[] = [];
+  mesesDisponiveis: string[] = [];
+  todasTransacoes: Transacao[] = [];
+  carregando = true;
 
   constructor(
     private transacaoService: TransacaoService,
     private navCtrl: NavController,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController
-  ) { }
+  ) {}
 
   ngOnInit() {
-  this.transacaoService.getTransacoes().subscribe((dados) => {
+    this.transacaoService.getTransacoes().subscribe((dados) => {
+      this.todasTransacoes = dados;
+
+      this.categorias = [...new Set(dados.map(t => t.category).filter(c => !!c))];
+      this.mesesDisponiveis = [...new Set(dados.map(t => {
+        const data = new Date(t.date);
+        return data.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+      }))];
+
+      this.aplicarFiltros();
+      this.carregando = false;
+    });
+  }
+
+  aplicarFiltros() {
+    let filtradas = [...this.todasTransacoes];
+
+    if (this.filtroTipo !== 'todos') {
+      filtradas = filtradas.filter(t => t.type === this.filtroTipo);
+    }
+
+    if (this.filtroCategoria !== 'todas') {
+      filtradas = filtradas.filter(t => t.category === this.filtroCategoria);
+    }
+
+    if (this.filtroMes !== 'todos') {
+      filtradas = filtradas.filter(t => {
+        const mes = new Date(t.date).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+        return mes === this.filtroMes;
+      });
+    }
+
     const agrupado: { [key: string]: Transacao[] } = {};
 
-    dados.forEach((t) => {
+    filtradas.forEach((t) => {
       const data = new Date(t.date);
       const hoje = new Date();
       const ontem = new Date();
@@ -36,13 +73,9 @@ export class TransacoesPage implements OnInit {
 
       let chave: string;
 
-      if (
-        data.toDateString() === hoje.toDateString()
-      ) {
+      if (data.toDateString() === hoje.toDateString()) {
         chave = 'Hoje';
-      } else if (
-        data.toDateString() === ontem.toDateString()
-      ) {
+      } else if (data.toDateString() === ontem.toDateString()) {
         chave = 'Ontem';
       } else {
         chave = data.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
@@ -55,18 +88,12 @@ export class TransacoesPage implements OnInit {
     this.transacoesAgrupadas = Object.entries(agrupado).map(([titulo, transacoes]) => ({
       titulo,
       transacoes: transacoes.sort((a, b) => +new Date(b.date) - +new Date(a.date))
-    }));
-
-    // Ordena os grupos pela data da primeira transação
-    this.transacoesAgrupadas.sort((a, b) => {
+    })).sort((a, b) => {
       const dataA = new Date(a.transacoes[0].date);
       const dataB = new Date(b.transacoes[0].date);
       return +dataB - +dataA;
     });
-
-    this.carregando = false;
-  });
-}
+  }
 
   formatarData(data: string) {
     return new Date(data).toLocaleDateString('pt-BR');
@@ -75,6 +102,7 @@ export class TransacoesPage implements OnInit {
   editarTransacao(transacao: Transacao) {
     this.navCtrl.navigateForward(`/tabs/nova-transacao?id=${transacao.id}`);
   }
+
   async confirmarExclusao(transacao: Transacao) {
     const alert = await this.alertCtrl.create({
       header: 'Confirmar',
@@ -94,6 +122,7 @@ export class TransacoesPage implements OnInit {
               color: 'success'
             });
             toast.present();
+            this.ngOnInit();
           }
         }
       ]
