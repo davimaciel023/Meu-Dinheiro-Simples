@@ -1,26 +1,35 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="login-wrapper">
+  <div class="login-box">
+    <h2 class="titulo">Entrar</h2>
+    <p class="subtitulo">Faça login para acessar sua conta</p>
 
-<ion-content class="ion-padding">
-  <ion-input placeholder="E-mail" [(ngModel)]="email" type="email"></ion-input>
-  <ion-input placeholder="Senha" [(ngModel)]="password" type="password"></ion-input>
+    <form>
+      <ion-item lines="inset" class="input-minimal">
+        <ion-input type="email" placeholder="E-mail" [(ngModel)]="email" name="email"></ion-input>
+      </ion-item>
 
-  <ion-button expand="block" (click)="login()" [disabled]="loading">
-    Entrar
-  </ion-button>
+      <ion-item lines="inset" class="input-minimal">
+        <ion-input type="password" placeholder="Senha" [(ngModel)]="password" name="password"></ion-input>
+      </ion-item>
 
-  <ion-button expand="block" fill="outline" (click)="loginComGoogle()">
-    Entrar com Google
-  </ion-button>
+      <ion-button expand="block" class="botao-entrar" (click)="login()" [disabled]="loading">
+        Entrar
+      </ion-button>
 
-  <ion-text color="danger" *ngIf="error">
-    <p>{{ error }}</p>
-  </ion-text>
+      <ion-button expand="block" fill="clear" class="botao-google" (click)="loginComGoogle()">
+        <ion-icon name="logo-google" slot="start"></ion-icon>
+        Entrar com Google
+      </ion-button>
+    </form>
 
-  <ion-button fill="clear" (click)="register()">
-    Criar uma conta
-  </ion-button>
+    <ion-text color="danger" *ngIf="error">
+      <p class="erro">{{ error }}</p>
+    </ion-text>
+
+    <div class="link-registro">
+      <ion-text>
+        <a (click)="register()">Criar uma conta</a>
+      </ion-text>
+    </div>
+  </div>
 </ion-content>

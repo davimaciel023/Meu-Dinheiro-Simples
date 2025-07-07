@@ -1,0 +1,76 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  --background: var(--ion-color-light);
+}
+
+.login-box {
+  width: 100%;
+  max-width: 380px;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+  text-align: center;
+}
+
+.titulo {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: var(--ion-color-primary);
+  margin-bottom: 0.25rem;
+}
+
+.subtitulo {
+  font-size: 0.95rem;
+  color: var(--ion-color-medium);
+  margin-bottom: 2rem;
+}
+
+.input-minimal {
+  --background: #f1f5f9;
+  --border-radius: 12px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --highlight-color-focused: var(--ion-color-primary);
+  --color: var(--ion-color-dark);
+  margin-bottom: 1rem;
+}
+
+.botao-entrar {
+  margin-top: 1rem;
+  --background: var(--ion-color-primary);
+  --border-radius: 12px;
+  font-weight: 500;
+}
+
+.botao-google {
+  margin-top: 0.5rem;
+  --color: var(--ion-color-primary);
+  --border-radius: 12px;
+  font-weight: 500;
+}
+
+.erro {
+  font-size: 0.85rem;
+  margin-top: 1rem;
+}
+
+.link-registro {
+  margin-top: 1.5rem;
+
+  a {
+    color: var(--ion-color-primary);
+    font-weight: 500;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
