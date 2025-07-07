@@ -6,15 +6,29 @@
 
 <ion-content class="ion-padding">
   <ion-list *ngIf="!carregando && transacoes.length > 0">
-    <ion-item *ngFor="let t of transacoes" lines="full">
-      <ion-label>
-        <h2>{{ t.category || 'Sem categoria' }}</h2>
-        <p>{{ formatarData(t.date) }} – {{ t.description || 'Sem descrição' }}</p>
-      </ion-label>
-      <ion-text [color]="t.type === 'entrada' ? 'success' : 'danger'">
-        <strong>{{ t.type === 'entrada' ? '+' : '-' }} R$ {{ t.value.toFixed(2) }}</strong>
-      </ion-text>
-    </ion-item>
+    <ion-item-sliding *ngFor="let t of transacoes">
+      <ion-item lines="full">
+        <ion-label>
+          <h2>{{ t.category || 'Sem categoria' }}</h2>
+          <p>{{ formatarData(t.date) }} – {{ t.description || 'Sem descrição' }}</p>
+        </ion-label>
+        <ion-text [color]="t.type === 'entrada' ? 'success' : 'danger'">
+          <strong>{{ t.type === 'entrada' ? '+' : '-' }} R$ {{ t.value.toFixed(2) }}</strong>
+        </ion-text>
+      </ion-item>
+
+      <ion-item-options side="start">
+        <ion-item-option color="warning" (click)="editarTransacao(t)">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="confirmarExclusao(t)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 
   <ion-text *ngIf="!carregando && transacoes.length === 0" color="medium">

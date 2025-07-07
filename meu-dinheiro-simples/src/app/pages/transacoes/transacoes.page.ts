@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { TransacaoService } from 'src/app/services/transacao.service';
 import { Transacao } from 'src/app/models/transacao.model';
 import { AsyncPipe, NgIf, NgFor } from '@angular/common';
+import { NavController, AlertController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-transacoes',
   standalone: true,
-  imports: [IonicModule, CommonModule, AsyncPipe, NgIf, NgFor],
+  imports: [IonicModule, CommonModule, NgIf, NgFor],
   templateUrl: './transacoes.page.html',
   styleUrls: ['./transacoes.page.scss']
 })
@@ -17,7 +18,10 @@ export class TransacoesPage implements OnInit {
   carregando = true
 
   constructor(
-    private transacaoService: TransacaoService
+    private transacaoService: TransacaoService,
+    private navCtrl: NavController,
+    private alertCtrl: AlertController,
+    private toastCtrl: ToastController
   ) { }
 
   ngOnInit() {
@@ -32,4 +36,33 @@ export class TransacoesPage implements OnInit {
     return new Date(data).toLocaleDateString('pt-BR');
   }
 
+  editarTransacao(transacao: Transacao) {
+    this.navCtrl.navigateForward(`/tabs/nova-transacao?id=${transacao.id}`);
+  }
+  async confirmarExclusao(transacao: Transacao) {
+    const alert = await this.alertCtrl.create({
+      header: 'Confirmar',
+      message: 'Deseja excluir esta transação?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Excluir',
+          handler: async () => {
+            await this.transacaoService.deleteTransacao(transacao.id!);
+            const toast = await this.toastCtrl.create({
+              message: 'Transação excluída.',
+              duration: 2000,
+              color: 'success'
+            });
+            toast.present();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 }
