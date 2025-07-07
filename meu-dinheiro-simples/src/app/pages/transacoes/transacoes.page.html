@@ -5,8 +5,13 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-list *ngIf="!carregando && transacoes.length > 0">
-    <ion-item-sliding *ngFor="let t of transacoes">
+  <ion-list *ngIf="!carregando && transacoesAgrupadas.length > 0">
+  <div *ngFor="let grupo of transacoesAgrupadas">
+    <ion-item-divider color="light">
+      <ion-label><strong>{{ grupo.titulo }}</strong></ion-label>
+    </ion-item-divider>
+
+    <ion-item-sliding *ngFor="let t of grupo.transacoes">
       <ion-item lines="full">
         <ion-label>
           <h2>{{ t.category || 'Sem categoria' }}</h2>
@@ -29,9 +34,10 @@
         </ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
-  </ion-list>
+  </div>
+</ion-list>
 
-  <ion-text *ngIf="!carregando && transacoes.length === 0" color="medium">
+  <ion-text *ngIf="!carregando && transacoesAgrupadas.length === 0" color="medium">
     <p>Nenhuma transação encontrada.</p>
   </ion-text>
 
