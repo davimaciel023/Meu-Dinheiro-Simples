@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { IonicModule, NavController, AlertController, ToastController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { TransacaoService } from 'src/app/services/transacao.service';
 import { Transacao } from 'src/app/models/transacao.model';
-import { FormsModule } from '@angular/forms';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-transacoes',
@@ -27,11 +28,13 @@ export class TransacoesPage implements OnInit {
     private transacaoService: TransacaoService,
     private navCtrl: NavController,
     private alertCtrl: AlertController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.transacaoService.getTransacoes().subscribe((dados) => {
+    this.carregando = true;
+    this.transacaoService.getTransacoes().pipe(delay(0)).subscribe((dados) => {
       this.todasTransacoes = dados;
 
       this.categorias = [...new Set(dados.map(t => t.category).filter(c => !!c))];
@@ -42,6 +45,7 @@ export class TransacoesPage implements OnInit {
 
       this.aplicarFiltros();
       this.carregando = false;
+      this.cdr.detectChanges();
     });
   }
 
@@ -122,7 +126,7 @@ export class TransacoesPage implements OnInit {
               color: 'success'
             });
             toast.present();
-            this.ngOnInit();
+            this.ngOnInit(); // Atualiza novamente
           }
         }
       ]
@@ -130,4 +134,13 @@ export class TransacoesPage implements OnInit {
 
     await alert.present();
   }
+
+  trackByGrupo(index: number, grupo: { titulo: string; transacoes:  Transacao[] }) {
+    return grupo.titulo;
+  }
+
+  trackById(index: number, item: Transacao) {
+    return item.id;
+  }
+
 }

@@ -33,12 +33,12 @@
 
   <!-- Lista de transações agrupadas -->
   <ion-list *ngIf="!carregando && transacoesAgrupadas.length > 0">
-    <div *ngFor="let grupo of transacoesAgrupadas">
+    <div *ngFor="let grupo of transacoesAgrupadas; trackBy: trackByGrupo">
       <ion-item-divider color="light">
         <ion-label><strong>{{ grupo.titulo }}</strong></ion-label>
       </ion-item-divider>
 
-      <ion-item-sliding *ngFor="let t of grupo.transacoes" [@fadeSlideIn]>
+      <ion-item-sliding *ngFor="let t of grupo.transacoes; trackBy: trackById" [@fadeSlideIn]>
         <ion-item lines="full">
           <ion-label>
             <h2>{{ t.category || 'Sem categoria' }}</h2>
