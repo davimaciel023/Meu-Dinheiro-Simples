@@ -1,13 +1,59 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>orcamento</ion-title>
+    <ion-title>Orçamento</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">orcamento</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <ion-card *ngIf="orcamento">
+    <ion-card-header>
+      <ion-card-title>Limite para {{ mesAtual }}</ion-card-title>
+      <ion-card-subtitle>Controle seus gastos mensais</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-text color="medium">
+        <p>Limite definido: <strong>R$ {{ orcamento.limiteMensal.toFixed(2) }}</strong></p>
+        <p>Gasto atual: <strong>R$ {{ gastoAtual.toFixed(2) }}</strong></p>
+      </ion-text>
+
+      <ion-text [color]="restante < 0 ? 'danger' : 'success'">
+        <p>
+          Restante: <strong>R$ {{ restante.toFixed(2) }}</strong>
+          <br>
+          Você usou {{ (percentualGasto * 100) | number:'1.0-0' }}% do seu orçamento.
+        </p>
+      </ion-text>
+
+      <ion-progress-bar [value]="percentualGasto" [color]="restante < 0 ? 'danger' : 'success'" class="ion-margin-top"></ion-progress-bar>
+
+      <ion-button expand="block" fill="outline" class="ion-margin-top" (click)="editar = !editar">
+        {{ editar ? 'Cancelar' : 'Editar orçamento' }}
+      </ion-button>
+
+      <div *ngIf="editar" class="ion-margin-top">
+        <ion-item>
+          <ion-label position="floating">Novo limite (R$)</ion-label>
+          <ion-input type="number" [(ngModel)]="limiteInput"></ion-input>
+        </ion-item>
+        <ion-button expand="block" color="primary" (click)="salvarOrcamento()">Salvar novo limite</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="!orcamento">
+    <ion-card-header>
+      <ion-card-title>Defina seu orçamento de {{ mesAtual }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Limite mensal (R$)</ion-label>
+        <ion-input type="number" [(ngModel)]="limiteInput"></ion-input>
+      </ion-item>
+      <ion-button expand="block" class="ion-margin-top" (click)="salvarOrcamento()">Salvar orçamento</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-spinner *ngIf="carregando" name="crescent" class="ion-margin-top"></ion-spinner>
 </ion-content>

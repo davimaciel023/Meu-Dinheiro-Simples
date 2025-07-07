@@ -1,5 +1,5 @@
 export interface Orcamento {
   id?: string;
-  category: string;
-  limit: number;
+  limiteMensal: number;
+  mes: string;
 }
