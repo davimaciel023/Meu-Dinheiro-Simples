@@ -60,7 +60,12 @@ ion-content {
 .botao-google {
   --color: var(--ion-color-primary);
   --border-radius: 12px;
+  margin-top: 10px;
   font-weight: 500;
+  display: flex;
+  gap: 20px;
+  justify-content: space-around;
+
 }
 
 .erro {
