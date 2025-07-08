@@ -2,47 +2,45 @@
 // http://ionicframework.com/docs/theming/
 
 :root {
-  --color-primary: #4F46E5;
-  --color-secondary: #A78BFA;
+  --cor-primaria: #0047ff;
+  --cor-secundaria: #e0e7ff;
+  --cor-texto: #1a1a1a;
+  --cor-fundo: #f5f6fa;
+  --cor-sucesso: #28a745;
+  --cor-erro: #dc3545;
+  --cor-borda: #dcdde1;
 
-  --color-background: #F9FAFB;
-  --color-surface: #FFFFFF;
+  --input-fundo: #f9fbff;
+  --input-texto: #333;
+  --input-placeholder: #888;
 
-  --color-text-primary: #111827;
-  --color-text-secondary: #6B7280;
+  --botao-primario: var(--cor-primaria);
+  --botao-primario-texto: #fff;
+  --botao-secundario: #fff;
+  --botao-secundario-texto: var(--cor-primaria);
 
-  --color-success: #10B981;
-  --color-error: #EF4444;
-  --color-warning: #F59E0B;
-  --color-info: #3B82F6;
-
-  --color-border: #E5E7EB;
-  --color-shadow: rgba(0, 0, 0, 0.05);
-
-  --border-radius: 12px;
-  --transition-fast: 0.2s ease;
+  --sombra-suave: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-primary: #6366F1;
-    --color-secondary: #C4B5FD;
+    --cor-primaria: #4c8eff;
+    --cor-secundaria: #3c3c3c;
+    --cor-texto: #ffffff;
+    --cor-fundo: #121212;
+    --cor-sucesso: #28a745;
+    --cor-erro: #ff6b6b;
+    --cor-borda: #2c2c2c;
 
-    --color-background: #1F2937;
-    --color-surface: #111827;
+    --input-fundo: #1f1f1f;
+    --input-texto: #fff;
+    --input-placeholder: #aaa;
 
-    --color-text-primary: #F9FAFB;
-    --color-text-secondary: #9CA3AF;
+    --botao-primario: #4c8eff;
+    --botao-primario-texto: #fff;
+    --botao-secundario: transparent;
+    --botao-secundario-texto: #4c8eff;
 
-    --color-success: #34D399;
-    --color-error: #F87171;
-    --color-warning: #FBBF24;
-    --color-info: #60A5FA;
-
-    --color-border: #374151;
-    --color-shadow: rgba(0, 0, 0, 0.4);
-
-    --border-radius: 12px;
-    --transition-fast: 0.2s ease;
+    --sombra-suave: 0 4px 16px rgba(0, 0, 0, 0.4);
   }
 }
