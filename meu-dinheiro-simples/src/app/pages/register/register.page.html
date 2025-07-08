@@ -1,22 +1,30 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Criar Conta</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="register-wrapper">
+  <div class="register-box">
+    <h2 class="titulo">Criar Conta</h2>
+    <p class="subtitulo">Preencha seus dados para começar</p>
 
-<ion-content class="ion-padding">
-  <ion-input placeholder="E-mail" [(ngModel)]="email" type="email"></ion-input>
-  <ion-input placeholder="Senha" [(ngModel)]="password" type="password"></ion-input>
+    <form>
+      <ion-item lines="inset" class="input-minimal">
+        <ion-input type="email" placeholder="E-mail" [(ngModel)]="email" name="email"></ion-input>
+      </ion-item>
 
-  <ion-button expand="block" (click)="register()" [disabled]="loading">
-    Criar Conta
-  </ion-button>
+      <ion-item lines="inset" class="input-minimal">
+        <ion-input type="password" placeholder="Senha" [(ngModel)]="password" name="password"></ion-input>
+      </ion-item>
 
-  <ion-text color="danger" *ngIf="error">
-    <p>{{ error }}</p>
-  </ion-text>
+      <ion-button expand="block" class="botao-registrar" (click)="register()" [disabled]="loading">
+        Criar Conta
+      </ion-button>
+    </form>
 
-  <ion-button fill="clear" (click)="login()">
-    Já tenho conta
-  </ion-button>
+    <ion-text color="danger" *ngIf="error">
+      <p class="erro">{{ error }}</p>
+    </ion-text>
+
+    <div class="link-login">
+      <ion-text>
+        <a (click)="login()">Já tenho conta</a>
+      </ion-text>
+    </div>
+  </div>
 </ion-content>

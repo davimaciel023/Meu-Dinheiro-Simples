@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { TransacaoService } from 'src/app/services/transacao.service';
 import { Transacao } from 'src/app/models/transacao.model';
 import { delay } from 'rxjs/operators';
+import { addIcons } from 'ionicons';
+import { createOutline, trashOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-transacoes',
@@ -30,7 +32,9 @@ export class TransacoesPage implements OnInit {
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+    addIcons({ trashOutline, createOutline })
+  }
 
   ngOnInit() {
     this.carregando = true;
