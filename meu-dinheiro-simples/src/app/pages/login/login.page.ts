@@ -5,6 +5,8 @@ import { IonHeader, IonToolbar, IonButton, IonTitle, IonInput, IonText, IonConte
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { addIcons } from 'ionicons';
+import { logoGoogle } from 'ionicons/icons';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +23,9 @@ export class LoginPage {
   constructor(
     private auth: AuthService,
     private router: Router
-  ) {}
+  ) {
+    addIcons({ logoGoogle })
+  }
 
   async login() {
     this.loading = true;
