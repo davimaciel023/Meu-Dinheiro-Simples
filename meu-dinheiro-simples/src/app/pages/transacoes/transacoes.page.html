@@ -64,11 +64,9 @@
     </div>
   </ion-list>
 
-  <!-- Sem transações -->
   <ion-text *ngIf="!carregando && transacoesAgrupadas.length === 0" color="medium">
     <p>Nenhuma transação encontrada.</p>
   </ion-text>
 
-  <!-- Loading -->
   <ion-spinner *ngIf="carregando" name="crescent" class="ion-margin-top"></ion-spinner>
 </ion-content>
