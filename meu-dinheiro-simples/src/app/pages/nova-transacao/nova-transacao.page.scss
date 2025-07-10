@@ -1,30 +1,58 @@
 ion-content {
   --background: var(--cor-fundo);
-  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  min-height: 100vh;
+}
+
+.transacao-wrapper {
+  width: 100%;
+  max-width: 420px;
+  background: var(--input-fundo);
+  border-radius: 12px;
+  box-shadow: var(--sombra-suave);
+  padding: 32px 24px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
+}
+
+.titulo {
+  font-size: 1.8rem;
+  color: var(--cor-texto);
+  font-weight: 700;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.subtitulo {
+  font-size: 1rem;
+  color: var(--input-placeholder);
+  text-align: center;
+  margin-bottom: 16px;
 }
 
 ion-segment {
-  --background: var(--input-fundo);
-  --color-checked: var(--cor-primaria);
+  --background: var(--cor-secundaria);
+  --color-checked: var(--botao-primario-texto);
   --indicator-color: var(--cor-primaria);
-  margin-bottom: 24px;
   border-radius: 8px;
   overflow: hidden;
+  margin-bottom: 12px;
 
   ion-segment-button {
+    font-weight: 600;
     --color: var(--input-placeholder);
-    font-weight: 500;
 
     &.segment-button-checked {
       --color: var(--botao-primario-texto);
-      background-color: var(--cor-primaria);
+      background: var(--cor-primaria);
     }
 
     ion-icon {
-      margin-right: 4px;
+      margin-right: 6px;
     }
   }
 }
@@ -33,28 +61,29 @@ ion-item {
   --background: var(--input-fundo);
   --color: var(--input-texto);
   border-radius: 8px;
-  margin-bottom: 16px;
+  box-shadow: var(--sombra-suave);
+  margin-bottom: 12px;
   padding-inline-start: 12px;
   padding-inline-end: 12px;
-  box-shadow: var(--sombra-suave);
 
   ion-label {
     color: var(--input-placeholder);
   }
 }
 
-ion-datetime,
-ion-select,
 ion-input,
-ion-textarea {
-  color: var(--input-texto);
+ion-select,
+ion-textarea,
+ion-datetime {
   font-size: 15px;
+  color: var(--input-texto);
 }
 
 ion-button {
   --background: var(--botao-primario);
   --color: var(--botao-primario-texto);
-  font-weight: 600;
   border-radius: 8px;
+  font-weight: 600;
+  margin-top: 16px;
   box-shadow: var(--sombra-suave);
 }
