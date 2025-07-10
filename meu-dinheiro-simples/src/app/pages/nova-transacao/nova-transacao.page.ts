@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicModule, ToastController, NavController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -33,12 +33,21 @@ export class NovaTransacaoPage {
     'Outros'
   ];
 
+  @ViewChild('calendario', { static: false }) calendario!: ElementRef;
+
   constructor(
     private transacaoService: TransacaoService,
     private toastCtrl: ToastController,
     private navCtrl: NavController
   ) {
-    addIcons({ arrowDownOutline, arrowUpOutline })
+    addIcons({ arrowDownOutline, arrowUpOutline });
+  }
+
+  async abrirCalendario() {
+    const el = this.calendario?.nativeElement;
+    if (el && typeof el.present === 'function') {
+      await el.present();
+    }
   }
 
   async salvar() {
