@@ -1,7 +1,6 @@
 import { Component, NgModule } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { IonHeader, IonToolbar, IonButton, IonTitle, IonInput, IonText, IonContent   } from "@ionic/angular/standalone";
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
