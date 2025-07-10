@@ -4,8 +4,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-segment [(ngModel)]="transacao.type" value="saida">
+<ion-content class="pagina-transacao ion-padding">
+
+  <ion-segment [(ngModel)]="transacao.type" value="saida" class="tipo-segmento">
     <ion-segment-button value="entrada">
       <ion-icon name="arrow-down-outline"></ion-icon>
       <ion-label>Entrada</ion-label>
@@ -23,22 +24,26 @@
 
   <ion-item>
     <ion-label position="floating">Categoria</ion-label>
-    <ion-select [(ngModel)]="transacao.category" required interface="action-sheet">
+    <ion-select [(ngModel)]="transacao.category" interface="action-sheet" required>
       <ion-select-option *ngFor="let cat of categorias" [value]="cat">
         {{ cat }}
       </ion-select-option>
     </ion-select>
   </ion-item>
 
-  <ion-item>
-    <ion-label position="floating">Data</ion-label>
-    <ion-datetime
-      displayFormat="DD/MM/YYYY"
-      [(ngModel)]="transacao.date"
-      presentation="date"
-      required>
-    </ion-datetime>
+  <ion-item button detail (click)="abrirCalendario()">
+    <ion-label>Data</ion-label>
+    <ion-note slot="end">{{ transacao.date | date: 'dd/MM/yyyy' }}</ion-note>
   </ion-item>
+
+  <ion-datetime #calendario
+                [(ngModel)]="transacao.date"
+                presentation="date"
+                showDefaultButtons="true"
+                cancelText="Cancelar"
+                doneText="Ok"
+                style="display: none">
+  </ion-datetime>
 
   <ion-item>
     <ion-label position="floating">Descrição (opcional)</ion-label>
@@ -48,4 +53,5 @@
   <ion-button expand="block" (click)="salvar()" class="ion-margin-top">
     Salvar Transação
   </ion-button>
+
 </ion-content>
