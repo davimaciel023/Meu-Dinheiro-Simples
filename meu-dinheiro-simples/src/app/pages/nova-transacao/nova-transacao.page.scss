@@ -87,3 +87,27 @@ ion-button {
   margin-top: 16px;
   box-shadow: var(--sombra-suave);
 }
+
+::ng-deep .modal-calendario {
+  --background: var(--cor-fundo);
+  --color: var(--cor-texto);
+  --height: auto;
+
+  ion-content {
+    --background: var(--cor-fundo);
+    --color: var(--cor-texto);
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  ion-datetime {
+    --background: var(--input-fundo);
+    --color: var(--input-texto);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+  }
+}
