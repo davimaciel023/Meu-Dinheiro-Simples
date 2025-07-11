@@ -1,11 +1,9 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicModule, ToastController, NavController } from '@ionic/angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonModal, IonicModule, ToastController, NavController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TransacaoService } from 'src/app/services/transacao.service';
 import { Transacao } from 'src/app/models/transacao.model';
-import { addIcons } from 'ionicons';
-import { arrowDownOutline, arrowUpOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-nova-transacao',
@@ -15,6 +13,8 @@ import { arrowDownOutline, arrowUpOutline } from 'ionicons/icons';
   styleUrls: ['./nova-transacao.page.scss']
 })
 export class NovaTransacaoPage {
+  @ViewChild('modalCalendario', { static: false }) modalCalendario!: IonModal;
+
   transacao: Transacao = {
     type: 'saida',
     value: null!,
@@ -33,21 +33,18 @@ export class NovaTransacaoPage {
     'Outros'
   ];
 
-  @ViewChild('calendario', { static: false }) calendario!: ElementRef;
-
   constructor(
     private transacaoService: TransacaoService,
     private toastCtrl: ToastController,
     private navCtrl: NavController
-  ) {
-    addIcons({ arrowDownOutline, arrowUpOutline });
+  ) {}
+
+  abrirCalendario() {
+    this.modalCalendario.present();
   }
 
-  async abrirCalendario() {
-    const el = this.calendario?.nativeElement;
-    if (el && typeof el.present === 'function') {
-      await el.present();
-    }
+  fecharCalendario() {
+    this.modalCalendario.dismiss();
   }
 
   async salvar() {
