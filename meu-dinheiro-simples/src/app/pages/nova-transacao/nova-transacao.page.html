@@ -31,19 +31,21 @@
     </ion-select>
   </ion-item>
 
-  <ion-item button detail (click)="abrirCalendario()">
+  <ion-item lines="inset" button (click)="abrirCalendario()" detail>
     <ion-label>Data</ion-label>
-    <ion-note slot="end">{{ transacao.date | date: 'dd/MM/yyyy' }}</ion-note>
+    <ion-text>{{ transacao.date | date: 'dd/MM/yyyy' }}</ion-text>
   </ion-item>
 
-  <ion-datetime #calendario
-                [(ngModel)]="transacao.date"
-                presentation="date"
-                showDefaultButtons="true"
-                cancelText="Cancelar"
-                doneText="Ok"
-                style="display: none">
-  </ion-datetime>
+  <ion-modal #modalCalendario class="modal-calendario">
+    <ion-content class="ion-padding">
+      <ion-datetime
+        [(ngModel)]="transacao.date"
+        presentation="date"
+        locale="pt-BR"
+        (ionChange)="fecharCalendario()">
+      </ion-datetime>
+    </ion-content>
+</ion-modal>
 
   <ion-item>
     <ion-label position="floating">Descrição (opcional)</ion-label>
