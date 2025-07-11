@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TransacaoService } from 'src/app/services/transacao.service';
 import { Transacao } from 'src/app/models/transacao.model';
+import { addIcons } from 'ionicons';
+import { arrowDownOutline, arrowUpOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-nova-transacao',
@@ -37,7 +39,9 @@ export class NovaTransacaoPage {
     private transacaoService: TransacaoService,
     private toastCtrl: ToastController,
     private navCtrl: NavController
-  ) {}
+  ) {
+    addIcons({ arrowDownOutline, arrowUpOutline })
+  }
 
   abrirCalendario() {
     this.modalCalendario.present();
