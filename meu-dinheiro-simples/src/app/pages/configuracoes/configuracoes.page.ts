@@ -1,80 +1,56 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicModule, ToastController, AlertController, NavController } from '@ionic/angular';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Auth } from '@angular/fire/auth';
-import { signOut } from 'firebase/auth';
+import { NavController, ToastController, IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-configuracoes',
-  standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
   templateUrl: './configuracoes.page.html',
-  styleUrls: ['./configuracoes.page.scss']
+  styleUrls: ['./configuracoes.page.scss'],
+  imports: [IonicModule, FormsModule]
 })
 export class ConfiguracoesPage implements OnInit {
   temaEscuro = false;
   notificacoesAtivas = true;
 
-  constructor(
-    private toastCtrl: ToastController,
-    private alertCtrl: AlertController,
-    private navCtrl: NavController,
-    private auth: Auth
-  ) {}
+  constructor(private navCtrl: NavController, private toastCtrl: ToastController) {}
 
   ngOnInit() {
     const temaSalvo = localStorage.getItem('tema');
     this.temaEscuro = temaSalvo === 'escuro';
 
-    const notificacoesSalvas = localStorage.getItem('notificacoes');
-    this.notificacoesAtivas = notificacoesSalvas !== 'false';
+    if (this.temaEscuro) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
   }
 
   alternarTema() {
-    const body = document.body;
-    this.temaEscuro ? body.classList.add('dark') : body.classList.remove('dark');
-    localStorage.setItem('tema', this.temaEscuro ? 'escuro' : 'claro');
+    if (this.temaEscuro) {
+      document.body.classList.add('dark');
+      localStorage.setItem('tema', 'escuro');
+    } else {
+      document.body.classList.remove('dark');
+      localStorage.setItem('tema', 'claro');
+    }
   }
 
   salvarPreferencias() {
-    localStorage.setItem('notificacoes', this.notificacoesAtivas.toString());
-    this.mostrarToast('Preferências salvas.');
+    localStorage.setItem('notificacoes', this.notificacoesAtivas ? 'on' : 'off');
+    this.toastCtrl.create({
+      message: 'Preferências salvas',
+      duration: 1500,
+      color: 'success'
+    }).then(toast => toast.present());
   }
 
-  async confirmarReset() {
-    const alert = await this.alertCtrl.create({
-      header: 'Redefinir Dados',
-      message: 'Isso apagará dados locais como preferências de tema e notificações. Deseja continuar?',
-      buttons: [
-        { text: 'Cancelar', role: 'cancel' },
-        {
-          text: 'Redefinir',
-          handler: () => {
-            localStorage.clear();
-            this.temaEscuro = false;
-            this.notificacoesAtivas = true;
-            document.body.classList.remove('dark');
-            this.mostrarToast('Dados redefinidos com sucesso.');
-          }
-        }
-      ]
-    });
-    await alert.present();
+  confirmarReset() {
+    // Aqui pode abrir um AlertController para confirmar
+    console.log('Resetar dados locais');
   }
 
-  async logout() {
-    await signOut(this.auth);
+  logout() {
+    // Lógica de logout
     this.navCtrl.navigateRoot('/login');
-    this.mostrarToast('Você saiu da conta.');
-  }
-
-  async mostrarToast(mensagem: string) {
-    const toast = await this.toastCtrl.create({
-      message: mensagem,
-      duration: 2000,
-      color: 'primary'
-    });
-    toast.present();
   }
 }
