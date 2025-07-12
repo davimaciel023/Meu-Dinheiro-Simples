@@ -31,21 +31,23 @@
     </ion-select>
   </ion-item>
 
-  <ion-item lines="inset" button (click)="abrirCalendario()" detail>
+  <ion-item button (click)="abrirCalendario()" detail>
     <ion-label>Data</ion-label>
-    <ion-text>{{ transacao.date | date: 'dd/MM/yyyy' }}</ion-text>
+    <ion-text slot="end">{{ transacao.date | date: 'dd/MM/yyyy' }}</ion-text>
   </ion-item>
 
-  <ion-modal #modalCalendario class="modal-calendario">
-    <ion-content class="ion-padding">
-      <ion-datetime
-        [(ngModel)]="transacao.date"
-        presentation="date"
-        locale="pt-BR"
-        (ionChange)="fecharCalendario()">
-      </ion-datetime>
-    </ion-content>
-</ion-modal>
+  <ion-modal [isOpen]="mostrarCalendario" (didDismiss)="mostrarCalendario = false">
+    <ng-template>
+      <ion-content class="ion-padding">
+        <ion-datetime
+          [value]="transacao.date"
+          presentation="date"
+          (ionChange)="selecionarData($event)">
+        </ion-datetime>
+        <ion-button expand="block" (click)="fecharCalendario()">Confirmar</ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 
   <ion-item>
     <ion-label position="floating">Descrição (opcional)</ion-label>

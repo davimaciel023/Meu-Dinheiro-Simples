@@ -87,27 +87,32 @@ ion-button {
   margin-top: 16px;
   box-shadow: var(--sombra-suave);
 }
-
-::ng-deep .modal-calendario {
+ion-modal {
   --background: var(--cor-fundo);
   --color: var(--cor-texto);
-  --height: auto;
-
-  ion-content {
-    --background: var(--cor-fundo);
-    --color: var(--cor-texto);
-    padding: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  --border-radius: 12px;
+  --box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 
   ion-datetime {
-    --background: var(--input-fundo);
-    --color: var(--input-texto);
-    border-radius: 16px;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+    --background: var(--cor-fundo);
+    --color: var(--cor-texto);
+    --ion-color-primary: var(--cor-primaria);
+    --ion-color-step-850: #1f1f1f; // fundo de seleção
+    --ion-color-step-900: #121212; // fundo do dia selecionado
+    --ion-color-base: var(--cor-fundo);
+  }
+
+  ion-button {
+    margin-top: 10px;
+    --background: var(--cor-primaria);
+    --color: white;
+    font-weight: bold;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cor-primaria: #4c8eff;
+    --cor-texto: #ffffff;
+    --cor-fundo: #121212;
   }
 }

@@ -16,6 +16,7 @@ import { arrowDownOutline, arrowUpOutline } from 'ionicons/icons';
 })
 export class NovaTransacaoPage {
   @ViewChild('modalCalendario', { static: false }) modalCalendario!: IonModal;
+  mostrarCalendario = false;
 
   transacao: Transacao = {
     type: 'saida',
@@ -41,14 +42,6 @@ export class NovaTransacaoPage {
     private navCtrl: NavController
   ) {
     addIcons({ arrowDownOutline, arrowUpOutline })
-  }
-
-  abrirCalendario() {
-    this.modalCalendario.present();
-  }
-
-  fecharCalendario() {
-    this.modalCalendario.dismiss();
   }
 
   async salvar() {
@@ -78,5 +71,18 @@ export class NovaTransacaoPage {
       });
       toast.present();
     }
+  }
+
+
+  abrirCalendario() {
+    this.mostrarCalendario = true;
+  }
+
+  fecharCalendario() {
+    this.mostrarCalendario = false;
+  }
+
+  selecionarData(event: any) {
+    this.transacao.date = event.detail.value;
   }
 }
