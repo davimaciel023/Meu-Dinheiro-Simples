@@ -1,76 +1,115 @@
-ion-content {
-  --background: var(--cor--primaria);
-  display: flex;
-  flex-direction: column;
-  padding: 2rem;
-  gap: 1.5rem;
+
+.titulo h1{
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--cor-texto);
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
-ion-card {
-  background-color: var(--cor-secundaria);
-  border-radius: 1rem;
-  box-shadow: var(--sombra-suave);
-  color: var(--cor-texto);
-  padding: 1rem;
-  margin-bottom: 1rem;
+.mostrar-saldo {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+  border-bottom: 1px solid var(--cor-borda);
+  padding-bottom: 1rem;
 
-  ion-card-header {
-    padding: 0;
+  .saldo, .entrada-saida {
+    ion-card {
+      background-color: var(--cor-secundaria);
+      border-radius: 0.3rem;
+      box-shadow: var(--sombra-suave);
+      color: var(--cor-texto);
+      padding: 1rem;
 
+
+    }
     ion-card-title {
-      font-size: 1.1rem;
+      font-size: 1.5rem;
       font-weight: 600;
       margin-bottom: 0.3rem;
+      color: var(--cor-texto);
+
     }
 
     ion-card-subtitle {
-      font-size: 1.4rem;
+      font-size: 1.1rem;
       font-weight: bold;
       color: var(--cor-primaria);
+      margin-bottom: 0.3rem;
+
     }
   }
 
-  ion-card-content {
-    padding-top: 0.5rem;
-  }
 }
 
-ion-grid {
-  gap: 1rem;
-}
+// ion-card {
+//   background-color: var(--cor-secundaria);
+//   border-radius: 1rem;
+//   box-shadow: var(--sombra-suave);
+//   color: var(--cor-texto);
+//   padding: 1rem;
+//   margin-bottom: 1rem;
 
-ion-row {
-  gap: 1rem;
-}
+//   ion-card-header {
+//     padding: 0;
 
-ion-col {
-  padding: 0 !important;
-}
+//     ion-card-title {
+//       font-size: 1.1rem;
+//       font-weight: 600;
+//       margin-bottom: 0.3rem;
+//     }
 
-ion-col ion-card[color="success"] {
-  background-color: #14532d;
-  ion-card-subtitle {
-    color: #bbf7d0;
-  }
-}
+//     ion-card-subtitle {
+//       font-size: 1.4rem;
+//       font-weight: bold;
+//       color: var(--cor-primaria);
+//     }
+//   }
 
-ion-col ion-card[color="danger"] {
-  background-color: #7f1d1d;
-  ion-card-subtitle {
-    color: #fecaca;
-  }
-}
+//   ion-card-content {
+//     padding-top: 0.5rem;
+//   }
+// }
 
-canvas {
-  width: 100% !important;
-  max-height: 240px;
-  margin-top: 0.5rem;
-  border-radius: 5rem;
-}
+// ion-grid {
+//   gap: 1rem;
+// }
 
-ion-title {
-  font-size: 1.4rem;
-  font-weight: bold;
-  text-align: center;
-  color: var(--cor-primaria);
-}
+// ion-row {
+//   gap: 1rem;
+// }
+
+// ion-col {
+//   padding: 0 !important;
+// }
+
+// ion-col ion-card[color="success"] {
+//   background-color: #14532d;
+//   ion-card-subtitle {
+//     color: #bbf7d0;
+//   }
+// }
+
+// ion-col ion-card[color="danger"] {
+//   background-color: #7f1d1d;
+//   ion-card-subtitle {
+//     color: #fecaca;
+//   }
+// }
+
+// canvas {
+//   width: 100% !important;
+//   max-height: 240px;
+//   margin-top: 0.5rem;
+//   border-radius: 5rem;
+// }
+
+// ion-title {
+//   font-size: 1.4rem;
+//   font-weight: bold;
+//   text-align: center;
+//   color: var(--cor-primaria);
+// }

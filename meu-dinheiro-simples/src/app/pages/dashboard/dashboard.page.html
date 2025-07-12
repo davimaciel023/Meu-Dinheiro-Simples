@@ -1,49 +1,61 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Dashboard</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding content">
+  <div class="titulo">
+    <h1>Bem vindo ao Dashboard!</h1>
+  </div>
+  <div class="mostrar-saldo">
+    <div class="saldo">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Saldo Atual</ion-card-title>
+          <ion-card-subtitle>R$ {{ saldo | number:'1.2-2' }}</ion-card-subtitle>
+        </ion-card-header>
+      </ion-card>
+    </div>
+    <div class="entrada-saida">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
 
-<ion-content class="ion-padding">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Saldo Atual</ion-card-title>
-      <ion-card-subtitle>R$ {{ saldo | number:'1.2-2' }}</ion-card-subtitle>
-    </ion-card-header>
-  </ion-card>
+            <div class="entrada">
+              <ion-card color="success">
+                <ion-card-header>
+                  <ion-card-title>Entradas</ion-card-title>
+                  <ion-card-subtitle>R$ {{ totalEntradas | number:'1.2-2' }}</ion-card-subtitle>
+                </ion-card-header>
+              </ion-card>
+            </div>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-card color="success">
-          <ion-card-header>
-            <ion-card-title>Entradas</ion-card-title>
-            <ion-card-subtitle>R$ {{ totalEntradas | number:'1.2-2' }}</ion-card-subtitle>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-      <ion-col>
-        <ion-card color="danger">
-          <ion-card-header>
-            <ion-card-title>Saídas</ion-card-title>
-            <ion-card-subtitle>R$ {{ totalSaidas | number:'1.2-2' }}</ion-card-subtitle>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+          </ion-col>
+          <ion-col>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Gastos por Categoria</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <canvas baseChart
-        [data]="chartData"
-        chartType="pie"
-        [options]="{ responsive: true }">
-      </canvas>
-    </ion-card-content>
-  </ion-card>
+            <div class="saida">
+              <ion-card color="danger">
+                <ion-card-header>
+                  <ion-card-title>Saídas</ion-card-title>
+                  <ion-card-subtitle>R$ {{ totalSaidas | number:'1.2-2' }}</ion-card-subtitle>
+                </ion-card-header>
+              </ion-card>
+            </div>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </div>
+
+  <div class="grafico">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Gastos por Categoria</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas baseChart
+          [data]="chartData"
+          chartType="pie"
+          [options]="{ responsive: true }">
+        </canvas>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
 </ion-content>
