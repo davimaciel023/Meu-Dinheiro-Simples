@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { ChartConfiguration, ChartType } from 'chart.js';
+import { ChartConfiguration, ChartType, ChartData } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { TransacaoService } from 'src/app/services/transacao.service';
 import { Transacao } from 'src/app/models/transacao.model';
-import { ChartData } from 'chart.js';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,9 +19,44 @@ export class DashboardPage implements OnInit {
   totalSaidas = 0;
   saldo = 0;
 
-  chartData: ChartConfiguration<'pie'>['data'] = {
+  chartData: ChartData<'pie'> = {
     labels: [],
-    datasets: [{ data: [] }]
+    datasets: []
+  };
+
+  chartOptions: ChartConfiguration<'pie'>['options'] = {
+    responsive: true,
+    plugins: {
+      legend: {
+        labels: {
+          color: '#000'
+        }
+      }
+    }
+  };
+
+  graficoMensalData: ChartData<'bar'> = {
+    labels: [],
+    datasets: []
+  };
+
+  graficoMensalOptions: ChartConfiguration<'bar'>['options'] = {
+    responsive: true,
+    plugins: {
+      legend: {
+        labels: {
+          color: '#000'
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: { color: '#000' }
+      },
+      y: {
+        ticks: { color: '#000' }
+      }
+    }
   };
 
   constructor(private transacaoService: TransacaoService) {}
@@ -32,6 +66,8 @@ export class DashboardPage implements OnInit {
       this.transacoes = data;
       this.calcularTotais();
       this.gerarGrafico();
+      this.gerarGraficoMensal();
+      this.atualizarCoresTema();
     });
   }
 
@@ -55,19 +91,28 @@ export class DashboardPage implements OnInit {
       categorias[cat] = (categorias[cat] || 0) + t.value;
     });
 
+    const cores = [
+      'var(--cor-primaria)',
+      'var(--cor-sucesso)',
+      'var(--cor-erro)',
+      '#ffc107',
+      '#17a2b8',
+      '#6f42c1',
+      '#20c997',
+      '#fd7e14'
+    ];
+
     this.chartData = {
       labels: Object.keys(categorias),
-      datasets: [{ data: Object.values(categorias) }]
+      datasets: [{
+        data: Object.values(categorias),
+        backgroundColor: cores.slice(0, Object.keys(categorias).length),
+        borderColor: 'var(--cor-borda)',
+        borderWidth: 1
+      }]
     };
   }
 
-  graficoMensalData: ChartData<'bar'> = {
-    labels: [],
-    datasets: [
-      { label: 'Entradas', data: [], backgroundColor: 'green' },
-      { label: 'Saídas', data: [], backgroundColor: 'red' }
-    ]
-  };
   gerarGraficoMensal() {
     const entradasPorMes: { [mes: string]: number } = {};
     const saidasPorMes: { [mes: string]: number } = {};
@@ -89,7 +134,7 @@ export class DashboardPage implements OnInit {
       const [ma, ya] = a.split('/');
       const [mb, yb] = b.split('/');
       return new Date(+`20${ya}`, this.nomeMesParaNumero(ma)).getTime() -
-            new Date(+`20${yb}`, this.nomeMesParaNumero(mb)).getTime();
+             new Date(+`20${yb}`, this.nomeMesParaNumero(mb)).getTime();
     });
 
     this.graficoMensalData = {
@@ -98,14 +143,53 @@ export class DashboardPage implements OnInit {
         {
           label: 'Entradas',
           data: todosOsMeses.map(m => entradasPorMes[m] || 0),
-          backgroundColor: 'green'
+          backgroundColor: 'var(--cor-sucesso)',
+          borderRadius: 8
         },
         {
           label: 'Saídas',
           data: todosOsMeses.map(m => saidasPorMes[m] || 0),
-          backgroundColor: 'red'
+          backgroundColor: 'var(--cor-erro)',
+          borderRadius: 8
         }
       ]
+    };
+  }
+
+  atualizarCoresTema() {
+    const textoCor = getComputedStyle(document.documentElement).getPropertyValue('--cor-texto').trim();
+
+    this.chartOptions = {
+      responsive: true,
+      plugins: {
+        legend: {
+          labels: {
+            color: textoCor,
+            font: {
+              size: 14
+            }
+          }
+        }
+      }
+    };
+
+    this.graficoMensalOptions = {
+      responsive: true,
+      plugins: {
+        legend: {
+          labels: {
+            color: textoCor
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: textoCor }
+        },
+        y: {
+          ticks: { color: textoCor }
+        }
+      }
     };
   }
 
