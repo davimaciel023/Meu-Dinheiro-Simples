@@ -31,6 +31,7 @@
     border-radius: 12px;
     box-shadow: var(--sombra-suave);
     background-color: var(--input-fundo);
+    padding: 1.2rem;
 
     ion-card-title {
       font-size: 1.2rem;
@@ -46,14 +47,15 @@
   .entrada-saida ion-card {
     border-radius: 12px;
     box-shadow: var(--sombra-suave);
+    padding: 1.2rem;
 
     ion-card-title {
-      font-size: 1rem;
+      font-size: 1.4rem;
       font-weight: 600;
     }
 
     ion-card-subtitle {
-      font-size: 0.9rem;
+      font-size: 1.2rem;
     }
   }
 
