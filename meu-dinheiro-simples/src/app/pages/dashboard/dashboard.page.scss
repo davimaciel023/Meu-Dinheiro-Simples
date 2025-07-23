@@ -1,78 +1,59 @@
-:host {
-  display: block;
-  background-color: var(--cor-fundo);
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.titulo {
+  text-align: center;
+
+  h1 {
+    font-size: 1.8rem;
+    color: var(--cor-primaria);
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+}
+
+ion-card {
+  border-radius: 12px;
+  box-shadow: var(--sombra-suave);
+  background: var(--cor-secundaria);
   color: var(--cor-texto);
+}
 
-  .content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
+.card-saldo ion-card-subtitle {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
 
-  .titulo {
+ion-grid {
+  margin-top: 0.5rem;
+}
+
+.card-entrada, .card-saida {
+  border-radius: 12px;
+  ion-card-header {
     text-align: center;
-    margin-top: 10px;
-
-    h1 {
-      font-size: 1.6rem;
-      font-weight: 600;
-      color: var(--cor-primaria);
-    }
   }
-
-  .mostrar-saldo {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 0 8px;
+  ion-card-title, ion-card-subtitle {
+    color: white;
   }
+}
 
-  .saldo ion-card {
-    border-radius: 12px;
-    box-shadow: var(--sombra-suave);
-    background-color: var(--input-fundo);
-    padding: 1.2rem;
+.card-entrada {
+  background-color: #28a745 !important;
+}
 
-    ion-card-title {
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
+.card-saida {
+  background-color: #dc3545 !important;
+}
 
-    ion-card-subtitle {
-      font-size: 1rem;
-      margin-top: 4px;
-    }
-  }
-
-  .entrada-saida ion-card {
-    border-radius: 12px;
-    box-shadow: var(--sombra-suave);
-    padding: 1.2rem;
-
-    ion-card-title {
-      font-size: 1.4rem;
-      font-weight: 600;
-    }
-
-    ion-card-subtitle {
-      font-size: 1.2rem;
-    }
-  }
-
-  .grafico ion-card {
-    border-radius: 12px;
-    box-shadow: var(--sombra-suave);
-    background-color: var(--input-fundo);
-    padding-bottom: 16px;
-
-    ion-card-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-  }
-
+.grafico {
+  padding: 1rem;
   canvas {
     max-width: 100%;
-    margin-top: 10px;
+    height: auto;
   }
 }
