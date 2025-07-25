@@ -7,7 +7,8 @@ import {
   swapHorizontalOutline,
   addCircleOutline,
   walletOutline,
-  settingsOutline
+  settingsOutline,
+  analyticsOutline
 } from 'ionicons/icons';
 
 @Component({
@@ -20,6 +21,7 @@ export class TabsPage {
   constructor() {
     addIcons({
       pieChartOutline,
+      analyticsOutline,
       swapHorizontalOutline,
       addCircleOutline,
       walletOutline,
